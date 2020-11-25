@@ -29,13 +29,27 @@ yarn add @wilfredlopez/color-converter
 from a CDN as `ColorConverter`:
 
 ```html
-<script src="https://unpkg.com/@wilfredlopez/color-converter"></script>
+<head>
+  <script src="https://unpkg.com/@wilfredlopez/color-converter"></script>
+</head>
+<body>
+  <script>
+    // The class is not the default export. in order to access the class you need to use this sintax
+    const color = new ColorConverter.ColorConverter("#ffffff");
+    console.log(color);
+    //You can also access other methods like
+    ColorConverter.parse("#ffffff"); // { alpha: 1, type: "rgb", values: (3) [255, 255, 255]}
+    ColorConverter.convert.rgb.hex([255, 255, 255]); //"#ffffff"
+    ColorConverter.hex2Rgb("#ffffff"); // {red: 255, green: 255, blue: 255, alpha: 1}
+    ColorConverter.mix("red", "green"); // {hex: "#804000", hexa: "#804000ff", rgba: [128, 64, 0, 1], hsla:  [30, 100, 25, 1]}
+  </script>
+</body>
 ```
 
 ## Usage
 
 ```js
-import ColorConverter from '@wilfredlopez/color-converter'
+import {ColorConverter} from '@wilfredlopez/color-converter'
 const color = new ColorConverter('hsl(204deg 100% 50% / 1)')
 
 console.log(color.tint(25))
