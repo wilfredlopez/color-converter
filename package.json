@@ -1,0 +1,79 @@
+{
+  "name": "@wilfredlopez/color-converter",
+  "version": "1.0.0",
+  "description": "Get tints and shades of a CSS color",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist/index.cjs.js",
+    "dist/index.esm.js",
+    "dist/index.umd.js"
+  ],
+  "sideEffects": false,
+  "license": "MIT",
+  "scripts": {
+    "build": "rollup -c && yarn emitDeclarations",
+    "build:ts": "tsc",
+    "dev": "rollup -c -w",
+    "test": "jest --maxWorkers 2",
+    "test:watch": "npm test -- -w",
+    "emitDeclarations": "tsc --emitDeclarationOnly",
+    "coverage": "nyc npm run test && nyc report --reporter=lcov",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": [
+    "tints",
+    "shades",
+    "tint",
+    "shade",
+    "css",
+    "color",
+    "hex",
+    "rgb",
+    "rgba",
+    "hsl",
+    "hsla",
+    "alpha",
+    "mix"
+  ],
+  "author": "Wilfred Lopez <cubamc@gmail.com>",
+  "homepage": "http://wilfredlopez.github.io/@wilfredlopez/color-converter/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wilfredlopez/@wilfredlopez/color-converter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wilfredlopez/@wilfredlopez/color-converter/issues"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@rollup/plugin-buble": "^0.21.3",
+    "@rollup/plugin-commonjs": "^12.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-replace": "^2.3.2",
+    "@types/babel__generator": "^7.6.2",
+    "eslint": "^7.0.0",
+    "eslint-config-rollup": "^0.1.0",
+    "jest": "^26.6.3",
+    "rollup": "^2.8.0",
+    "rollup-plugin-cleanup": "^3.1.1",
+    "rollup-plugin-sourcemaps": "^0.6.2",
+    "rollup-plugin-terser": "^6.0.1",
+    "rollup-plugin-typescript": "^1.0.1",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.1.2"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "clearMocks": true,
+    "coverageDirectory": "coverage",
+    "testMatch": [
+      "<rootDir>/test/**/*.test.(ts|tsx)"
+    ],
+    "setupFiles": [
+      "<rootDir>/test/setupTests.ts"
+    ]
+  }
+}
