@@ -1,15 +1,13 @@
 {
   "name": "@wilfredlopez/color-converter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get tints and shades of a CSS color",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.umd.js",
   "typings": "dist/index.d.ts",
   "files": [
-    "dist/index.cjs.js",
-    "dist/index.esm.js",
-    "dist/index.umd.js"
+    "dist/"
   ],
   "sideEffects": false,
   "license": "MIT",
