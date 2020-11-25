@@ -39,13 +39,13 @@
     "mix"
   ],
   "author": "Wilfred Lopez <cubamc@gmail.com>",
-  "homepage": "http://wilfredlopez.github.io/@wilfredlopez/color-converter/",
+  "homepage": "https://github.com/wilfredlopez/color-converter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wilfredlopez/@wilfredlopez/color-converter.git"
+    "url": "https://github.com/wilfredlopez/color-converter.git"
   },
   "bugs": {
-    "url": "https://github.com/wilfredlopez/@wilfredlopez/color-converter/issues"
+    "url": "https://github.com/wilfredlopez/color-converter/issues"
   },
   "dependencies": {},
   "devDependencies": {
