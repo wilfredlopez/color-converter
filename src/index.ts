@@ -4,4 +4,4 @@ export { mix } from "./mix";
 export * from "./types";
 export { convert } from "./convert";
 export { default as ColorConverter } from "./ColorConverter";
-export * as canvasUtils from './canvas-utils'
+export { canvasUtils } from "./canvas-utils";
