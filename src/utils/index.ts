@@ -1,6 +1,5 @@
 import {hex2Rgb} from "../hex-rgb";
-import {RGBType} from '../types'
-import { RgbaObject } from '../../dist/types'
+import {RGBType, RgbaObject} from '../types'
 
 type InputRGAArray = [
     w:number | null,
