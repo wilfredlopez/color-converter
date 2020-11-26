@@ -1,7 +1,7 @@
 import { mix } from "./mix";
 import { RGBType, RGBAType, ColorConverterType } from "./types";
 import { parse } from "./parse";
-import { defaultNumberParam } from "./utils";
+import { colorContrast, defaultNumberParam, invertHex } from "./utils";
 import { hsl2rgb, rgb2hex, rgb2hsl, hsl2string } from "./convert";
 import { ERROR_NON_STRING_MSG, ERROR_STRING_MSG } from "./constants";
 
@@ -52,6 +52,14 @@ export default class ColorConverter {
     return this.hlsString().replace(/,/g, " ");
   }
 
+  get contrastColor() {
+    return colorContrast(this.hex); //Returns #000000 | #ffffff;
+  }
+
+  get hexInvert() {
+    return invertHex(this.hex);
+  }
+
   setColor(color: string) {
     const parsed = parse(color);
     if (!parsed) return null;
@@ -90,7 +98,7 @@ export default class ColorConverter {
       ...this.tints(weight).reverse(),
       Object.assign(this),
       ...this.shades(weight)
-    ];
+    ] as ColorConverter[];
   }
 
   hexString() {
