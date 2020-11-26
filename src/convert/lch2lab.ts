@@ -1,6 +1,6 @@
 import { RGBType } from "../types";
 
-export function lch2lab(lch: RGBType): RGBType {
+export function lch2lab(lch: RGBType): [number, number, number] {
   var l = lch[0],
     c = lch[1],
     h = lch[2],

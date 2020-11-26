@@ -1,9 +1,8 @@
-export function hsv2rgb(
-  hsv: [number, number, number]
-): [number, number, number] | undefined {
-  let h = hsv[0] / 60,
-    s = hsv[1] / 100,
-    v = hsv[2] / 100,
+import { RGBType } from "../types";
+export function hsb2rgb(hsb: [number, number, number]): RGBType {
+  let h = hsb[0] / 60,
+    s = hsb[1] / 100,
+    v = hsb[2] / 100,
     hi = Math.floor(h) % 6;
 
   let f = h - Math.floor(h),
@@ -25,6 +24,8 @@ export function hsv2rgb(
     case 4:
       return [t, p, v];
     case 5:
+      return [v, p, q];
+    default:
       return [v, p, q];
   }
 }

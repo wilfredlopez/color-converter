@@ -1,10 +1,10 @@
 import {
   cmyk2rgb,
-  hsl2hsv,
+  hsl2hsb,
   hsl2rgb,
   hsl2string,
-  hsv2hsl,
-  hsv2rgb,
+  hsb2hsl,
+  hsb2rgb,
   hwb2rgb,
   lab2lch,
   lab2xyz,
@@ -13,7 +13,7 @@ import {
   rgb2grayscale,
   rgb2hex,
   rgb2hsl,
-  rgb2hsv,
+  rgb2hsb,
   rgb2hwb,
   rgb2lab,
   rgb2string,
@@ -27,13 +27,13 @@ export const convert = {
     rgb: cmyk2rgb
   },
   hsl: {
-    hsv: hsl2hsv,
+    hsb: hsl2hsb,
     rgb: hsl2rgb,
     string: hsl2string
   },
-  hsv: {
-    hsl: hsv2hsl,
-    rgb: hsv2rgb
+  hsb: {
+    hsl: hsb2hsl,
+    rgb: hsb2rgb
   },
   hwb: {
     rgb: hwb2rgb
@@ -49,7 +49,7 @@ export const convert = {
     cmyk: rgb2cmyk,
     hex: rgb2hex,
     hsl: rgb2hsl,
-    hsv: rgb2hsv,
+    hsb: rgb2hsb,
     hwb: rgb2hwb,
     lab: rgb2lab,
     xyz: rgb2xyz,

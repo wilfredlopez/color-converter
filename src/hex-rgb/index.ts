@@ -50,7 +50,7 @@ export function hex2Rgb(hex: string, options: HexRgbOptions = {}) {
   const blue = number & 255;
 
   if (options.format === "array") {
-    return [red, green, blue, alpha];
+    return [red, green, blue, alpha] as RGBAType;
   }
 
   if (options.format === "css") {

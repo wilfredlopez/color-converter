@@ -45,6 +45,7 @@ export default class ColorConverter {
   }
 
   get hex() {
+    // return this.hexString().replace(/^#/, "");
     return this.hexString().replace(/^#/, "");
   }
 
@@ -106,7 +107,8 @@ export default class ColorConverter {
   }
 
   hlsString() {
-    return hsl2string(rgb2hsl(this.rgb));
+    const { hue, saturation, lightness } = rgb2hsl(this.rgb);
+    return hsl2string([hue, saturation, lightness]);
   }
 
   rgbString() {

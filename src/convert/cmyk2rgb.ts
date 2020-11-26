@@ -1,4 +1,5 @@
-export function cmyk2rgb(cmyk: [number, number, number, number]) {
+import { RGBType } from "../types";
+export function cmyk2rgb(cmyk: [number, number, number, number]): RGBType {
   let c = cmyk[0] / 100,
     m = cmyk[1] / 100,
     y = cmyk[2] / 100,

@@ -27,10 +27,17 @@ export function mix(color1: string, color2: string, percentage = 50) {
   );
   const alpha = parseFloat((c1.alpha * p + c2.alpha * (1 - p)).toFixed(8));
 
+  const { hue, saturation, lightness } = rgb2hsl([r, g, b]);
+
   return {
     hex: rgb2hex([r, g, b]),
     hexa: rgb2hex([r, g, b, alpha]),
     rgba: [r, g, b, alpha] as RGBAType,
-    hsla: [...rgb2hsl([r, g, b]).map(Math.round), alpha] as RGBAType
+    hsla: [
+      Math.round(hue),
+      Math.round(saturation),
+      Math.round(lightness),
+      alpha
+    ] as RGBAType
   };
 }
