@@ -8,6 +8,15 @@ export interface HexRgbOptions {
     readonly format?: "object" | "array" | "css";
 }
 
+export interface ColorObject {
+    hsb: HsbObject;
+    rgb: RgbObject;
+    hex: string;
+  }
+  
+  export type ColorModels = "hex" | "rgb" | "hsb";
+  
+
 export interface RgbObject {
     red: number;
     green: number;

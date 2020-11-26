@@ -1,4 +1,4 @@
-import { ColorObject } from "./canvasTypes";
+import { ColorObject } from "../types";
 import { toColorObject } from "./toColorObject";
 
 /**

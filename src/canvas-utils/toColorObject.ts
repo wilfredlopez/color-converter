@@ -1,6 +1,6 @@
 import { convert } from "../convert";
 import { hex2Rgb } from "../hex-rgb";
-import { ColorModels, ColorObject } from "./";
+import { ColorModels, ColorObject } from "../types";
 
 const { hsb: rgb2hsb, hex: rgb2hex } = convert.rgb;
 const { rgb: hsb2rgb } = convert.hsb;

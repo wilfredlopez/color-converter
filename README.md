@@ -150,3 +150,278 @@ Returns the color in rgb() functional notation.
 Calculates the brightness of the color.
 
 - `@return {number}` — the base-color brightness.
+
+## Canvas Utililites (`HTMLCanvasElement`)
+
+#### `example with React`
+
+> Component with Canvas
+
+```tsx
+import React, { useRef, useMemo } from "react";
+import {
+  getCoordinatesByHue,
+  moveAt,
+  getHueByCoordinates,
+  changeHue,
+  ColorObject
+} from "@wilfredlopez/color-converter";
+
+export interface SaturationProps {
+  width: number;
+  height: number;
+  color: ColorObject;
+  setColor: (color: ColorObject) => void;
+}
+// COMPONENT CONTAINING CANVAS
+export const Saturation = ({
+  width,
+  height,
+  color,
+  setColor
+}: SaturationProps) => {
+  const paletteRef = useRef<HTMLCanvasElement>(null);
+
+  const cursorPosition = useMemo(() => {
+    const [x, y] = getCoordinatesByColor(color, width, height);
+
+    return { x, y };
+  }, [color, width, height]);
+
+  useEffect(() => {
+    const drawPalette = (): void => {
+      if (paletteRef.current) {
+        const ctx = paletteRef.current.getContext("2d");
+
+        if (ctx) {
+          const saturation = ctx.createLinearGradient(
+            0,
+            height / 2,
+            width,
+            height / 2
+          );
+
+          saturation.addColorStop(0, "white");
+          saturation.addColorStop(1, `hsl(${color.hsb.hue}, 100%, 50%)`);
+
+          ctx.fillStyle = saturation;
+          ctx.fillRect(0, 0, width, height);
+
+          const brightness = ctx.createLinearGradient(
+            width / 2,
+            0,
+            width / 2,
+            height
+          );
+
+          brightness.addColorStop(0, "transparent");
+          brightness.addColorStop(1, "black");
+
+          ctx.fillStyle = brightness;
+          ctx.fillRect(0, 0, width, height);
+        }
+      }
+    };
+
+    if (paletteRef.current) drawPalette();
+  }, [color.hsb.hue, width, height]);
+
+  const moveCursor = (
+    x: number,
+    y: number,
+    shiftX: number,
+    shiftY: number
+  ): void => {
+    const [newX, newY] = moveAt(
+      { value: x, shift: shiftX, min: 0, max: width },
+      { value: y, shift: shiftY, min: 0, max: height }
+    );
+
+    const newColor = getColorByCoordinates(
+      color.hsb.hue,
+      newX,
+      newY,
+      width,
+      height
+    );
+
+    setColor(newColor);
+  };
+
+  const onMouseDown = (e: React.MouseEvent): void => {
+    if (paletteRef.current) {
+      if (e.button !== 0) return;
+
+      document.getSelection()?.empty();
+
+      const {
+        left: shiftX,
+        top: shiftY
+      } = paletteRef.current.getBoundingClientRect();
+
+      moveCursor(e.clientX, e.clientY, shiftX, shiftY);
+
+      const mouseMove = (e: MouseEvent): void => {
+        moveCursor(e.clientX, e.clientY, shiftX, shiftY);
+      };
+      const mouseUp = (): void => {
+        document.removeEventListener("mousemove", mouseMove, false);
+        document.removeEventListener("mouseup", mouseUp, false);
+      };
+
+      document.addEventListener("mousemove", mouseMove, false);
+      document.addEventListener("mouseup", mouseUp, false);
+    }
+  };
+
+  return (
+    <div className="saturation">
+      <canvas
+        ref={paletteRef}
+        width={width}
+        height={height}
+        onMouseDown={onMouseDown}
+      />
+      <div
+        className="saturation-cursor"
+        style={{
+          left: cursorPosition.x,
+          top: cursorPosition.y,
+          backgroundColor: color.hex
+        }}
+      />
+    </div>
+  );
+};
+```
+
+> BAR FOR SELECTING COLOR HUE
+
+```tsx
+export interface HueBarProps {
+  width: number;
+  color: ColorObject;
+  setColor: (color: ColorObject) => void;
+}
+// BAR FOR SELECTING COLOR HUE
+export const HueBar = ({
+  width,
+  color,
+  setColor
+}: HueBarProps): JSX.Element => {
+  const hueBarRef = useRef<HTMLDivElement>(null);
+
+  const cursorPosition = useMemo(() => {
+    const x = getCoordinatesByHue(color.hsb.hue, width);
+
+    return x;
+  }, [color.hsb.hue, width]);
+
+  const moveCursor = (x: number, shiftX: number): void => {
+    const [newX] = moveAt({
+      value: x,
+      shift: shiftX,
+      min: 0,
+      max: width
+    });
+
+    const newHue = getHueByCoordinates(newX, width);
+
+    setColor(changeHue(color, newHue));
+  };
+
+  const onMouseDown = (e: React.MouseEvent): void => {
+    if (hueBarRef.current) {
+      if (e.button !== 0) return;
+
+      document.getSelection()?.empty();
+
+      const { left: shiftX } = hueBarRef.current.getBoundingClientRect();
+
+      moveCursor(e.clientX, shiftX);
+
+      const mouseMove = (e: MouseEvent): void => {
+        moveCursor(e.clientX, shiftX);
+      };
+      const mouseUp = (): void => {
+        document.removeEventListener("mousemove", mouseMove, false);
+        document.removeEventListener("mouseup", mouseUp, false);
+      };
+
+      document.addEventListener("mousemove", mouseMove, false);
+      document.addEventListener("mouseup", mouseUp, false);
+    }
+  };
+
+  return (
+    <div
+      className="hue-bar"
+      ref={hueBarRef}
+      style={{
+        width: width
+      }}
+      onMouseDown={onMouseDown}
+    >
+      <div
+        className="hue-bar-cursor"
+        style={{
+          left: cursorPosition,
+          backgroundColor: `hsl(${color.hsb.hue}, 100%, 50%)`
+        }}
+      />
+    </div>
+  );
+};
+```
+
+> Main Component
+
+```tsx
+export interface ColorPickerProps {
+  /**
+   * The width of the color picker.
+   */
+  width: number;
+  /**
+   * The height of the color picker.
+   */
+  height?: number;
+  /**
+   * Color in the `ColorObject`.
+   */
+  color: ColorObject;
+  /**
+   * The function that accepts the updated `ColorObject` as a single argument.
+   */
+  onChange: (color: ColorObject) => void;
+}
+
+export interface ColorPickerBodyProps {
+  width: number;
+}
+
+//Main Component
+export const ColorPicker = ({
+  width,
+  height = width,
+  color,
+  onChange
+}: ColorPickerProps): JSX.Element => (
+  <div className="color-picker">
+    <Saturation
+      width={width}
+      height={height}
+      color={color}
+      setColor={onChange}
+    />
+    <div
+      className="color-picker-body"
+      style={{
+        width: width + "px"
+      }}
+    >
+      <HueBar width={width - 5} color={color} setColor={onChange} />
+    </div>
+  </div>
+);
+```
