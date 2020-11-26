@@ -52,11 +52,11 @@ export default class ColorConverter {
     return this.hlsString().replace(/,/g, " ");
   }
 
-  get contrastColor() {
-    return colorContrast(this.hex); //Returns #000000 | #ffffff;
+  getContrast(threshold?: number) {
+    return new ColorConverter(colorContrast(this.hex, threshold)); //Returns #000000 | #ffffff;
   }
 
-  get hexInvert() {
+  get hexInverted() {
     return invertHex(this.hex);
   }
 
