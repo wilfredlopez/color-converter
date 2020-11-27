@@ -160,12 +160,17 @@ Calculates the brightness of the color.
 ```tsx
 import React, { useRef, useMemo } from "react";
 import {
+  canvasUtils,
+  ColorModels,
+  ColorObject
+} from "@wilfredlopez/color-converter";
+
+const {
   getCoordinatesByHue,
   moveAt,
   getHueByCoordinates,
-  changeHue,
-  ColorObject
-} from "@wilfredlopez/color-converter";
+  changeHue
+} = canvasUtils;
 
 export interface SaturationProps {
   width: number;
@@ -424,4 +429,86 @@ export const ColorPicker = ({
     </div>
   </div>
 );
+```
+
+> APP Component
+
+```tsx
+import React, { useState, useEffect } from "react";
+import { ColorConverter, ColorObject } from "@wilfredlopez/color-converter";
+import { ColorPicker } from "./components/ColorPicker";
+
+const DEFAULT_STYLE: React.CSSProperties = {
+  width: 90,
+  height: 80,
+  textAlign: "center",
+  justifyContent: "center",
+  display: "flex",
+  flexDirection: "column"
+};
+
+export function App() {
+  const [color, setColor] = useState<ColorObject>({
+    hex: "#a71f71",
+    hsb: {
+      hue: 323.8235294117647,
+      saturation: 81.437125748503,
+      brightness: 65.49019607843137
+    },
+    rgb: { red: 167, blue: 113, green: 31 }
+  });
+  const [converColor, setConvertColors] = useState(
+    new ColorConverter(color.hex)
+  );
+
+  useEffect(() => {
+    setConvertColors(new ColorConverter(color.hex));
+  }, [color]);
+
+  return (
+    <div className="container">
+      <ColorPicker
+        width={400}
+        color={color}
+        height={250}
+        onChange={e => {
+          setColor(e);
+        }}
+      />
+
+      <div
+        style={{
+          ...DEFAULT_STYLE,
+          border: "1px solid",
+          background: color.hex,
+          color: converColor.getContrast().hexString()
+        }}
+      >
+        {color.hex}
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr 1fr",
+          gridGap: "1px"
+        }}
+      >
+        {converColor.all().map(c => {
+          return (
+            <div
+              style={{
+                ...DEFAULT_STYLE,
+                background: c.hexString(),
+                color: c.getContrast().hexString()
+              }}
+            >
+              {c.hexString()}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 ```
