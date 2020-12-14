@@ -173,7 +173,7 @@ export default class ColorConverter {
     return [...this.rgb, this.alpha]
   }
   toColorObject() {
-    return toColorObject('hex', this.hex)
+    return toColorObject('hex', this.hexString())
   }
 }
 

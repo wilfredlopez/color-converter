@@ -44,8 +44,8 @@ export function hex2Rgb(hex: string, options: HexRgbOptions = {}) {
     nonHexChars.test(hex) ||
     !validHexSize.test(hex)
   ) {
-    return errorFallback(options.format || 'object')
-    // throw new TypeError("Expected a valid hex string")
+    // return errorFallback(options.format || 'object')
+    throw new TypeError("Expected a valid hex string")
   }
 
   hex = hex.replace(/^#/, "")
