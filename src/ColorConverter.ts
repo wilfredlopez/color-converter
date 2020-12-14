@@ -7,51 +7,16 @@ import { ERROR_NON_STRING_MSG, ERROR_STRING_MSG } from "./constants"
 import { toColorObject } from './canvas-utils/toColorObject'
 
 export default class ColorConverter {
-  /*-------------------------------
-  * ************PROPERTIES & GETTERS ************
-  * ---------------------------- -*/
-  rgb: RGBType
-  alpha: number
-  type: ColorConverterType
-  weight: number
-  get hex() {
-    // return this.hexString().replace(/^#/, "");
-    return this.hexString().replace(/^#/, "")
-  }
-
-  get hsl() {
-    return this.hlsString().replace(/,/g, " ")
-  }
-  get hslRaw(): HslObject {
-    return rgb2hsl(this.rgb)
-  }
-  get hsbRaw(): HsbObject {
-    return rgb2hsb(this.rgb)
-  }
-  get hexInverted() {
-    return invertHex(this.hex)
-  }
-  get rgbObject(): RgbObject {
-    const [red, green, blue] = this.rgb
-    return {
-      red, green, blue
-    }
-  }
-  get rgbaObject(): RgbaObject {
-    const [red, green, blue] = this.rgb
-    return {
-      red, green, blue, alpha: this.alpha
-    }
-  }
   static VERSION: string = "";
   constructor(
     color: string | number = "#000",
+    alpha = 1,
     type: ColorConverterType = "base",
     weight = 0
   ) {
     [this.rgb, this.alpha, this.type, this.weight] = [
       [0, 0, 0],
-      1,
+      alpha,
       type,
       weight
     ]
@@ -82,12 +47,52 @@ export default class ColorConverter {
   }
 
   /*-------------------------------
+ * ************PROPERTIES & GETTERS ************
+ * ---------------------------- -*/
+  rgb: RGBType
+  alpha: number
+  type: ColorConverterType
+  weight: number
+  get hex() {
+    // return this.hexString().replace(/^#/, "");
+    return this.hexString().replace(/^#/, "")
+  }
+
+  get hsl() {
+    return this.hlsString().replace(/,/g, " ")
+  }
+
+  get hexInverted() {
+    return invertHex(this.hex)
+  }
+
+  get hslObject(): HslObject {
+    return rgb2hsl(this.rgb)
+  }
+  get hsbObject(): HsbObject {
+    return rgb2hsb(this.rgb)
+  }
+  get rgbObject(): RgbObject {
+    const [red, green, blue] = this.rgb
+    return {
+      red, green, blue
+    }
+  }
+  get rgbaObject(): RgbaObject {
+    const [red, green, blue] = this.rgb
+    return {
+      red, green, blue, alpha: this.alpha
+    }
+  }
+
+  /*-------------------------------
    * ************METHODS************
    * ---------------------------- -*/
 
   getContrast(threshold?: number) {
     return new ColorConverter(colorContrast(this.hex, threshold)) //Returns #000000 | #ffffff;
   }
+
 
   setColor(color: string) {
     const parsed = parse(color)
@@ -101,6 +106,7 @@ export default class ColorConverter {
   tint(weight?: number, w = defaultNumberParam(weight, 50)) {
     return new ColorConverter(
       `rgb(${mix("#fff", this.rgbString(), w).rgba})`,
+      this.alpha,
       "tint",
       w
     )
@@ -109,6 +115,7 @@ export default class ColorConverter {
   shade(weight?: number, w = defaultNumberParam(weight, 50)) {
     return new ColorConverter(
       `rgb(${mix("#000", this.rgbString(), w).rgba})`,
+      this.alpha,
       "shade",
       w
     )
@@ -162,13 +169,6 @@ export default class ColorConverter {
   }
 
 
-  toHsbObject() {
-    return rgb2hsb(this.rgb)
-  }
-
-  toHslObject() {
-    return rgb2hsl(this.rgb)
-  }
   toRGBA(): RGBAType {
     return [...this.rgb, this.alpha]
   }

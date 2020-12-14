@@ -1,6 +1,6 @@
 # ColorConverter
 
-Get tints and shades of a CSS color
+Get tints and shades of a CSS color and utility methods to work with colors in javascript.
 
 ### Supports
 
@@ -65,31 +65,50 @@ console.log(color.all(20))
 
 // example instance
 ColorConverter {
-  alpha: 1
-  rgb: (3) [255, 0, 0]
-  type: "base"
-  weight: 0
-  get hex: ƒ(...)
-  get hsl: ƒ(...)
+  rgb: RGBType // [255, 0, 0]
+  alpha: number
+  type: ColorConverterType
+  weight: number
+  get hex() string //without the #
+  get hexInverted(): string
+  get hsl():string
+  get hslObject(): HslObject
+  get hsbObject(): HsbObject
+  get rgbObject(): RgbObject
+  get rgbaObject(): RgbaObject
   setColor: ƒ setColor(color)
   tint: ƒ tint(weight=50)
   tints: ƒ tints(weight=10)
   shade: ƒ shade(weight=50)
   shades: ƒ shades(weight=10)
   all: ƒ all(weight=10)
-  hexString: ƒ hexString()
+  hexString: ƒ hexString() // #ffffff
   rgbString: ƒ rgbString()
+  hlsString: ƒ hlsString()
   getBrightness: ƒ getBrightness()
+  getContrast: ƒ getContrast(threshold?: number)
+  toRGBA(): RGBAType
+  toColorObject(): ColorObject
 }
 ```
 
 ## Methods
 
-### constructor(color)
+### constructor
 
 Throws if the color is not accepted.
 
-- `@param {string} color` — a valid CSS color string
+- `@param {string} color` — a valid CSS color string (red, green, #fff, #000000)
+
+- `@param {number} alpha` - between 0 and 1. defaults to 1
+
+- `@param {ColorConverterType} type` - "shade" | "base" | "tint"
+
+- `@param {number} weight` - defaults to 0
+
+```ts
+constructor ColorConverter(color?: string | number, alpha?: number, type?: ColorConverterType, weight?: number): ColorConverter
+```
 
 ### setColor(color)
 
