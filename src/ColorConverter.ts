@@ -1,9 +1,10 @@
 import { mix } from "./mix"
-import { RGBType, RGBAType, ColorConverterType } from "./types"
+import { RGBType, RGBAType, ColorConverterType, RgbObject, RgbaObject, HslObject, HsbObject } from './types'
 import { parse } from "./parse"
 import { colorContrast, defaultNumberParam, invertHex } from "./utils"
 import { hsl2rgb, rgb2hex, rgb2hsl, hsl2string, rgb2hsb } from "./convert"
 import { ERROR_NON_STRING_MSG, ERROR_STRING_MSG } from "./constants"
+import { toColorObject } from './canvas-utils/toColorObject'
 
 export default class ColorConverter {
   /*-------------------------------
@@ -21,8 +22,26 @@ export default class ColorConverter {
   get hsl() {
     return this.hlsString().replace(/,/g, " ")
   }
+  get hslRaw(): HslObject {
+    return rgb2hsl(this.rgb)
+  }
+  get hsbRaw(): HsbObject {
+    return rgb2hsb(this.rgb)
+  }
   get hexInverted() {
     return invertHex(this.hex)
+  }
+  get rgbObject(): RgbObject {
+    const [red, green, blue] = this.rgb
+    return {
+      red, green, blue
+    }
+  }
+  get rgbaObject(): RgbaObject {
+    const [red, green, blue] = this.rgb
+    return {
+      red, green, blue, alpha: this.alpha
+    }
   }
   static VERSION: string = "";
   constructor(
@@ -139,14 +158,18 @@ export default class ColorConverter {
   }
 
 
-  toHsvObject() {
+  toHsbObject() {
     return rgb2hsb(this.rgb)
   }
+
   toHslObject() {
     return rgb2hsl(this.rgb)
   }
   toRGBA(): RGBAType {
     return [...this.rgb, this.alpha]
+  }
+  toColorObject() {
+    return toColorObject('hex', this.hex)
   }
 }
 
