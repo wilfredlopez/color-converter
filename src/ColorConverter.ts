@@ -23,18 +23,17 @@ export default class ColorConverter {
 
     if (typeof color === "number") {
       //handle hexadecimal cases 0xff0000 > #FFFFFF
-      let nc = "#" + (color as number).toString(16).toUpperCase()
-      if (nc.length !== 7) {
+      let hexaColor = "#" + (color as number).toString(16).toUpperCase()
+      if (hexaColor.length !== 7) {
         throw new TypeError(`${ERROR_NON_STRING_MSG} ${color}`)
       } else {
-        color = nc
-
+        color = hexaColor
       }
     }
     let colorToParse = color === null ? "#000" : color
     if (typeof colorToParse !== "string") {
-      // throw new TypeError(`${ERROR_NON_STRING_MSG} ${c}`)
-      colorToParse = '#000'
+      throw new TypeError(`${ERROR_NON_STRING_MSG} ${colorToParse}`)
+      // colorToParse = '#000'
     }
 
     const parsed = parse(colorToParse)

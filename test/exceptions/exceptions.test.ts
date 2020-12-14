@@ -1,6 +1,5 @@
 import { ColorConverter } from "../../src"
-const ERROR_STRING_MSG = "Unable to parse color from string:"
-const ERROR_NON_STRING_MSG = "Input should be a string:"
+import { ERROR_NON_STRING_MSG, ERROR_STRING_MSG } from '../../src/constants'
 
 const handleStringError = (input: any) => {
   it(`should throw error: ${ERROR_STRING_MSG} ${input}`, () =>
@@ -17,7 +16,7 @@ const handleNonStringError = (input: any) => {
 
 
 //ERRORS REMOVED FOR CONVENICE
-describe.skip("input / exceptions", () => {
+describe("input / exceptions", () => {
   describe('new ColorConverter(<"undefined">)', () =>
     handleStringError("undefined"))
   describe('new ColorConverter(<"currentColor">)', () =>
@@ -30,6 +29,4 @@ describe.skip("input / exceptions", () => {
   describe("new ColorConverter(<1234>)", () => handleNonStringError(1234))
   describe("new ColorConverter(<true>)", () => handleNonStringError(true))
   describe("new ColorConverter(<false>)", () => handleNonStringError(false))
-  // describe("new ColorConverter(<0xFFF>)", () =>
-  //   handleNonStringError(0xffffff));
 })

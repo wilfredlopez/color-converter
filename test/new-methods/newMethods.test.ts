@@ -31,4 +31,30 @@ describe("New Methods", () => {
             expect(redObject.hsl.lightness).toBe(50)
         })
     })
+    describe("new getters", () => {
+        it('returns the proper color object', () => {
+
+            expect(color.hsbObject).toMatchObject({
+                brightness: 100,
+                saturation: 100,
+                hue: 0,
+            })
+            expect(color.hslObject).toMatchObject({
+                lightness: 50,
+                saturation: 100,
+                hue: 0,
+            })
+            expect(color.rgbObject).toMatchObject({
+                blue: 0,
+                red: 255,
+                green: 0
+            })
+            expect(color.rgbaObject).toMatchObject({
+                blue: 0,
+                red: 255,
+                green: 0,
+                alpha: 1
+            })
+        })
+    })
 })
