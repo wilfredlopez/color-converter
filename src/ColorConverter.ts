@@ -61,15 +61,19 @@ export default class ColorConverter {
       let nc = "#" + (color as number).toString(16).toUpperCase()
       if (nc.length !== 7) {
         throw new TypeError(`${ERROR_NON_STRING_MSG} ${color}`)
-      }
-      color = nc
-    }
-    const c = color === null ? "#000" : color
-    if (typeof c !== "string")
-      throw new TypeError(`${ERROR_NON_STRING_MSG} ${c}`)
+      } else {
+        color = nc
 
-    const parsed = parse(c)
-    if (!parsed) throw new Error(`${ERROR_STRING_MSG} ${c}`)
+      }
+    }
+    let colorToParse = color === null ? "#000" : color
+    if (typeof colorToParse !== "string") {
+      // throw new TypeError(`${ERROR_NON_STRING_MSG} ${c}`)
+      colorToParse = '#000'
+    }
+
+    const parsed = parse(colorToParse)
+    if (!parsed) throw new Error(`${ERROR_STRING_MSG} ${colorToParse}`)
     if (parsed.type === "rgb") {
       return this._setFromRGB([...parsed.values, parsed.alpha])
     }
