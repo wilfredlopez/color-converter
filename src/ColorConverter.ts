@@ -161,11 +161,20 @@ export default class ColorConverter {
     [this.rgb, this.alpha] = [[r, g, b], a]
     return this
   }
-
   private _setFromHSL([h, s, l, a]: RGBAType) {
     [this.rgb, this.alpha] = [hsl2rgb([h, s, l]).map(Math.round) as RGBType, a]
     return this
   }
+
+  static fromRGB(rbg: RGBAType) {
+    return new ColorConverter()._setFromRGB(rbg)
+  }
+
+  static fromHSL({ hue, lightness, saturation }: HslObject) {
+    return new ColorConverter()._setFromHSL([hue, saturation, lightness, 1])
+  }
+
+
 
 
   toRGBA(): RGBAType {
