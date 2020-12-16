@@ -25,12 +25,19 @@ or
 yarn add @wilfredlopez/color-converter
 ```
 
+### unpkg
+
+```html
+<!-- ReactColorPicker -->
+<script src="https://unpkg.com/react-color-palette-picker@latest/build/index.umd.js"></script>
+```
+
 **Or**
-from a CDN as `ColorConverter`:
+From a unpkg as `ColorConverter`:
 
 ```html
 <head>
-  <script src="https://unpkg.com/@wilfredlopez/color-converter"></script>
+  <script src="https://unpkg.com/@wilfredlopez/color-converter@latest/dist/index.umd.js"></script>
 </head>
 <body>
   <script>
